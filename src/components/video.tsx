@@ -1,11 +1,13 @@
 import { useRef, useState } from "react";
 import VideoDetailCard from "../pages/videoDetail";
+import { useMovieContext } from "../context/movieContext";
 
 const VideoPlayer = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [showDetail ,setShowDetail] = useState(false);
 
+    const {videoFile} = useMovieContext();
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -24,7 +26,7 @@ const VideoPlayer = () => {
     <div className="relative w-full md:h-[690px] overflow-hidden text-white">
       <video
         ref={videoRef}
-        src="/videos/videos.mp4"
+        src={videoFile}
         autoPlay
         muted={isMuted}
         loop
@@ -32,7 +34,7 @@ const VideoPlayer = () => {
         className="w-full h-full object-cover"
       ></video>
 
-    <div className="absolute top-70 left-10 max-w-xl space-y-6 z-10 bg-gray-400/7 px-5 py-20 rounded-3xl">
+    <div className="absolute top-70 left-10 max-w-xl space-y-6 z-0 bg-gray-400/7 px-5 py-20 rounded-3xl ">
         <h1 className="text-6xl font-bold">{movie.title}</h1>
         <p className="max-w-md text-2xl">{movie.overview}</p>
         <div className="flex space-x-4">

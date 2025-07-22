@@ -8,7 +8,11 @@ interface MovieContextType {
   movies: Movie[];
   latesMovies: Movie[];
   topRadetMovies: Movie[];
+  topMovies: Movie[];
+  topSeries: Movie[];
+  videoFile: string;
   selectedMovie: Movie | null;
+  setVideoFile: (file: string) => void;
   setSelectedMovie: (movie: Movie | null) => void;
 }
 
@@ -18,25 +22,34 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [latesMovies, setLatesMovies] = useState<Movie[]>([]);
   const [topRadetMovies, setTopRatedMovies] = useState<Movie[]>([]);
+  const [topMovies, setTopMovies] = useState<Movie[]>([]);
+  const [topSeries, setTopSeries] = useState<Movie[]>([]);
+  const [videoFile, setVideoFile] = useState("/videos/videos.mp4")
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   useEffect(() => {
   const fetchMovies = async () => {
     try {
-      const [popularRes, latestRes, topRatedRes] = await Promise.all([
+      const [popularRes, latestRes, topRatedRes,topMoviesRes,topSeriesRes] = await Promise.all([
         fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=tr-TR&page=1`),
         fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=tr-TR&page=1`),
-        fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=tr-TR&page=1`)
+        fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=tr-TR&page=1`),
+        fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`),
+        fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}`)
       ]);
 
-      if (!popularRes.ok || !latestRes.ok || !topRatedRes.ok) throw new Error("Veri alınamadı");
+      if (!popularRes.ok || !latestRes.ok || !topRatedRes.ok || !topMoviesRes || !topSeriesRes) throw new Error("Veri alınamadı");
         const popularData = await popularRes.json();
         const latestData = await latestRes.json();
         const topRatedData = await topRatedRes.json();
+        const topMoviesData = await topMoviesRes.json();
+        const topSeriesData = await topSeriesRes.json();
 
         setMovies(popularData.results);         // Popüler
         setLatesMovies(latestData.results);    // Son çıkanlar
         setTopRatedMovies(topRatedData.results); // Top Rated
+        setTopMovies(topMoviesData.results); // filmer
+        setTopSeries(topSeriesData.results); // diziler
     } catch (error) {
       console.error(error);
     }
@@ -46,8 +59,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
 
   
   return (
-    <MovieContext.Provider value={{movies,selectedMovie, latesMovies,
-      topRadetMovies,setSelectedMovie}}>
+    <MovieContext.Provider value={{movies,selectedMovie, videoFile, setVideoFile, latesMovies,
+      topRadetMovies, topMovies, topSeries, setSelectedMovie}}>
       {children}
     </MovieContext.Provider>
   );

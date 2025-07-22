@@ -1,10 +1,23 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import DropdownPanel from "./dropdownPanel";
+import { Link } from "react-router-dom";
+import { useMovieContext } from "../context/movieContext";
 
 export default function(){
+    const [activeDropDown, setActiveDropDown] = useState<"films" | "series" | null> (null);
 
+    const {setVideoFile} = useMovieContext();
     const [isSwapped, setIsSwapped] = useState(false);
-
     const toggle = () => setIsSwapped(!isSwapped);
+
+    const handleThemeClick = () => {
+        setVideoFile("/videos/videosBreakingBad.mp4");
+    };
+
+    useEffect(() => {
+        document.body.style.overflow = activeDropDown ? "hidden" : "auto";
+      }, [activeDropDown]);
+      
 
 
     return(
@@ -27,21 +40,38 @@ export default function(){
                     >
                     {isSwapped ? (
                    
-                        <i className="bi bi-moon text-2xl"></i>
+                        <i 
+                        onClick={() => setVideoFile("/videos/videos.mp4")}
+                        className="bi bi-moon text-2xl"></i>
                 
                  ) : (
-                        <i className="bi bi-sun text-2xl"></i>
+                        <i 
+                        onClick={handleThemeClick}
+                        className="bi bi-sun text-2xl"></i>
                     
                     )}
                 </div>
                 
                     <ul className="flex gap-6 font-bold p-1">
-                        <li className="py-1 border-b border-transparent hover:border-white rounded ">Anasayfa</li>
-                        <li className="py-1 border-b border-transparent hover:border-white rounded">Filmler</li>
-                        <li className="py-1 border-b border-transparent hover:border-white rounded">Diziler</li>
+                     <Link to={"/"}>  <li className="py-1 border-b border-transparent hover:border-white rounded ">Anasayfa</li> </Link>
+                        <li 
+                        onClick={() => setActiveDropDown("films")}
+                        className="py-1 border-b border-transparent hover:border-white rounded">Filmler</li>
+                        <li 
+                        onClick={() => setActiveDropDown("series")}
+                        className="py-1 border-b border-transparent hover:border-white rounded">Diziler</li>
                         <li className="py-1 border-b border-transparent hover:border-white rounded">Favoriler</li>
                     </ul>
             </div>
+
+                {activeDropDown && (
+                    <DropdownPanel 
+                    activeTab={activeDropDown}
+                    onClose={() => setActiveDropDown(null)} />
+                )}
+
         </nav>
+
+        
     )
 }

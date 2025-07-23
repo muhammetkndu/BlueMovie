@@ -10,8 +10,15 @@ interface MovieContextType {
   topRadetMovies: Movie[];
   topMovies: Movie[];
   topSeries: Movie[];
+  searchResults: Movie[];
+  searchQuery?: string;
+  searchMovies: (query: string) => void;
   videoFile: string;
   selectedMovie: Movie | null;
+  favorites: Movie[];
+  addFavorite: (movie: Movie) => void;
+  removeFavorite: (movieId: string) => void;
+  isFavorite: (movieId: string) => boolean;
   setVideoFile: (file: string) => void;
   setSelectedMovie: (movie: Movie | null) => void;
 }
@@ -24,8 +31,46 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [topRadetMovies, setTopRatedMovies] = useState<Movie[]>([]);
   const [topMovies, setTopMovies] = useState<Movie[]>([]);
   const [topSeries, setTopSeries] = useState<Movie[]>([]);
+  const [searchResults, setSearchResults] = useState<Movie[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [favorites, setFavorites] = useState<Movie[]>([]);
   const [videoFile, setVideoFile] = useState("/videos/videos.mp4")
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+
+
+    const addFavorite = (movie: Movie) => {
+      setFavorites((prew) => {
+        if(prew.find((m) => m.id === movie.id)) return prew;
+        return [...prew, movie];
+      });
+    };
+
+    const removeFavorite = (movieId: string) => {
+      setFavorites((prev) => prev.filter((m) => m.id !== movieId));
+    };
+
+    const isFavorite = (movieId: string) => {
+      return favorites.some((m) => m.id === movieId);
+    }
+
+
+  const searchMovies = async (query: string) =>{
+    setSearchQuery(query);
+
+    if(!query){
+      setSearchResults([]);
+      return;
+    }
+    try{
+    const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&language=tr-TR&query=${encodeURIComponent(query)}&page=1&include_adult=false`);
+
+    if(!res.ok) throw new Error("Arama Başarısız");
+    const data = await res.json();
+    setSearchResults(data.results);
+    }catch(error){
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
   const fetchMovies = async () => {
@@ -59,8 +104,24 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
 
   
   return (
-    <MovieContext.Provider value={{movies,selectedMovie, videoFile, setVideoFile, latesMovies,
-      topRadetMovies, topMovies, topSeries, setSelectedMovie}}>
+    <MovieContext.Provider value={{
+      movies,
+      selectedMovie,
+      videoFile, 
+      setVideoFile, 
+      latesMovies,
+      topRadetMovies, 
+      topMovies, 
+      topSeries, 
+      setSelectedMovie,
+      searchResults,
+      searchQuery,
+      searchMovies,
+      favorites,
+      addFavorite,
+      removeFavorite,
+      isFavorite,
+      }}>
       {children}
     </MovieContext.Provider>
   );

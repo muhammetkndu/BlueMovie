@@ -10,8 +10,11 @@ export default function MovieRow({
   films: Movie[];
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { setSelectedMovie } = useMovieContext();
+  const {setSelectedMovie} = useMovieContext();
   const scrollAmount = 300;
+
+
+  
 
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -81,10 +84,6 @@ export default function MovieRow({
               <h2 className="text-sm font-bold">{film.title}</h2>
               <div className="flex justify-between items-center mt-1">
                 <p className="text-xs text-blue-400">Aksiyon</p>
-                <div className="flex gap-3">
-                  <i className="bi bi-heart text-white text-lg cursor-pointer hover:text-red-500"></i>
-                  <i className="bi bi-play-circle text-white text-lg cursor-pointer hover:text-green-400"></i>
-                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import VideoDetailCard from "../pages/videoDetail";
 import { useMovieContext } from "../context/movieContext";
+import { videoData } from "../types/videoData";
 
 const VideoPlayer = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -8,6 +9,7 @@ const VideoPlayer = () => {
   const [showDetail ,setShowDetail] = useState(false);
 
     const {videoFile} = useMovieContext();
+    const currentVideoData = videoData[videoFile || ""] || null
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -16,12 +18,7 @@ const VideoPlayer = () => {
     }
   };
 
-  const movie = {
-    id: "1",
-    title: "Game Of Thrones",
-    overview: "Kuzey unutmaz. Tüm Westeros'u etkileyecek bir savaş başlıyor...",
-  };
-
+  
   return (
     <div className="relative w-full md:h-[690px] overflow-hidden text-white">
       <video
@@ -33,10 +30,10 @@ const VideoPlayer = () => {
         playsInline
         className="w-full h-full object-cover"
       ></video>
-
+      {currentVideoData && (
     <div className="absolute top-70 left-10 max-w-xl space-y-6 z-0 bg-gray-400/7 px-5 py-20 rounded-3xl ">
-        <h1 className="text-6xl font-bold">{movie.title}</h1>
-        <p className="max-w-md text-2xl">{movie.overview}</p>
+        <h1 className="text-6xl font-bold">{currentVideoData.title}</h1>
+        <p className="max-w-md text-2xl">{currentVideoData.description}</p>
         <div className="flex space-x-4">
           <button className="bg-white text-black px-6 py-2 rounded font-semibold hover:bg-gray-300 transition">
             ▶️ Oynat
@@ -49,10 +46,12 @@ const VideoPlayer = () => {
           </button>
         </div>
       </div>
-      {showDetail && (
+      )}
+      {showDetail && currentVideoData && (
         <VideoDetailCard
-          title="Game Of Thrones"
-          overview="Kuzey unutmaz. Tüm Westeros'u etkileyecek bir savaş başlıyor..."
+          title={currentVideoData.title}
+          overview={currentVideoData.description}
+          image={currentVideoData.image}
           onClose={() => setShowDetail(false)}
         />
       )}

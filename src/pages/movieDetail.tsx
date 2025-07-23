@@ -1,12 +1,19 @@
 import { useMovieContext } from "../context/movieContext";
 
-
 const DetailCard = () => {
-  const { selectedMovie, setSelectedMovie } = useMovieContext();
+  const { selectedMovie, setSelectedMovie,addFavorite, removeFavorite, isFavorite } = useMovieContext();
 
-  if (!selectedMovie) return null;
+     const handleFavoriteToggle = () =>{
+        if(!selectedMovie) return;
+        if(isFavorite(selectedMovie.id)){
+          removeFavorite(selectedMovie.id);
+        }else{
+          addFavorite(selectedMovie);
+        }
+    };
+      if (!selectedMovie) return null;
 
-  const imageUrl = `https://image.tmdb.org/t/p/original${selectedMovie.backdrop_path || selectedMovie.poster_path}`;
+      const imageUrl = `https://image.tmdb.org/t/p/original${selectedMovie.backdrop_path || selectedMovie.poster_path}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
@@ -38,7 +45,9 @@ const DetailCard = () => {
             <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition">
               ▶️ Oynat
             </button>
-            <button className="bg-neutral-700 px-4 py-2 rounded hover:bg-neutral-600 transition">
+            <button 
+            onClick={handleFavoriteToggle}
+            className="bg-neutral-700 px-4 py-2 rounded hover:bg-neutral-600 transition">
               ❤️ Favorilere Ekle
             </button>
           </div>

@@ -14,7 +14,7 @@ export default function DropdownPanel({ activeTab, onClose }: Props) {
   const [page, setPage] = useState(1);
   const [dataToShow, setDataToShow] = useState<Movie[]>([]);
 
-  const { setSelectedMovie } = useMovieContext();
+  const {setSelectedMovie} = useMovieContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +36,7 @@ export default function DropdownPanel({ activeTab, onClose }: Props) {
   }, [activeTab, page]);
 
   return (
-    <div className="fixed top-16 left-0 w-full h-[80vh] bg-black text-white overflow-y-auto z-[9999] p-4">
+    <div className="fixed top-16 left-0 w-full h-[80vh] bg-black/30 text-white overflow-y-auto z-[9999] p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">
           {activeTab === "films" ? "Filmler" : "Diziler"}
@@ -61,19 +61,7 @@ export default function DropdownPanel({ activeTab, onClose }: Props) {
             />
 
             {/* Hover overlay */}
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col items-center justify-center gap-2">
-              <button
-                onClick={() => setSelectedMovie(item)}
-                className="bg-white text-black px-3 py-1 rounded text-sm hover:bg-gray-200"
-              >
-                ▶ Oynat
-              </button>
-              <button
-                onClick={() => console.log("Favorilere eklendi:", item.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
-              >
-                ❤️ Favori
-              </button>
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300">
             </div>
 
             <p className="mt-2 text-sm text-center p-1">

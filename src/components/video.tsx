@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import VideoDetailCard from "../pages/videoDetail";
 import { useMovieContext } from "../context/movieContext";
 import { videoData } from "../types/videoData";
@@ -10,6 +10,17 @@ const VideoPlayer = () => {
 
     const {videoFile} = useMovieContext();
     const currentVideoData = videoData[videoFile || ""] || null
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const handlerResize = () => {
+        setIsMobile(window.innerWidth < 768); 
+      }
+      handlerResize();
+      window.addEventListener('resize', handlerResize);
+
+      return () => window.removeEventListener('resize', handlerResize);
+    },[]);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -20,7 +31,8 @@ const VideoPlayer = () => {
 
   
   return (
-    <div className="relative w-full md:h-[690px] overflow-hidden text-white">
+    <div className="relative w-full md:h-[100vh] h-[270px]  overflow-hidden text-white"
+    >
       <video
         ref={videoRef}
         src={videoFile}
@@ -28,26 +40,29 @@ const VideoPlayer = () => {
         muted={isMuted}
         loop
         playsInline
-        className="w-full h-full object-cover"
+        className="w-full h-full  object-cover"
       ></video>
-      {currentVideoData && (
-    <div className="absolute top-70 left-10 max-w-xl space-y-6 z-0 bg-gray-400/7 px-5 py-20 rounded-3xl ">
-        <h1 className="text-6xl font-bold">{currentVideoData.title}</h1>
-        <p className="max-w-md text-2xl">{currentVideoData.description}</p>
-        <div className="flex space-x-4">
-          <button className="bg-white text-black px-6 py-2 rounded font-semibold hover:bg-gray-300 transition">
-            ▶️ Oynat
-          </button>
-          <button
-            onClick={() => setShowDetail(true)}
-            className="bg-gray-700 bg-opacity-70 px-6 py-2 rounded hover:bg-gray-600 transition"
-          >
-            Detaylar
-          </button>
-        </div>
-      </div>
+
+      {currentVideoData && !isMobile && (
+        <div className="absolute top-[55%] md:top-1/3 left-4 sm:left-10 max-w-xs sm:max-w-xl space-y-4 sm:space-y-4 z-0 bg-gray-400/10 px-4 sm:px-2 py-10 sm:py-4 rounded-2xl sm:rounded-3xl">
+        <h1 className="text-2xl sm:text-6xl font-bold">{currentVideoData.title}</h1>
+        <p className="text-sm sm:text-2xl max-w-xs sm:max-w-md">{currentVideoData.description}</p>
+    
+    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+      <button className="bg-white text-black px-4 sm:px-6 py-2 rounded font-semibold hover:bg-gray-300 transition">
+        ▶️ Oynat
+      </button>
+      <button
+        onClick={() => setShowDetail(true)}
+        className="bg-gray-700 bg-opacity-70 px-4 sm:px-6 py-2 rounded hover:bg-gray-600 transition"
+      >
+        Detaylar
+      </button>
+    </div>
+  </div>
+  
       )}
-      {showDetail && currentVideoData && (
+      {showDetail && currentVideoData &&(
         <VideoDetailCard
           title={currentVideoData.title}
           overview={currentVideoData.description}

@@ -18,11 +18,11 @@ export default function SearchPanel({ onClose, searchQuery }: DropdownPanelProps
   };
 
   return (
-    <div className="fixed top-16 left-0 w-full h-[80vh] bg-black/30 text-white overflow-y-auto z-[9999] p-4">
+    <div className="fixed top-24 left-0 w-full h-[calc(100vh-6rem)] bg-black/30 text-white overflow-y-auto z-[50] p-4">
   {searchResults.length === 0 && isSearchMode && searchQuery && searchQuery.length > 0 ? (
     <p>Sonuç bulunamadı.</p>
   ) : (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
       {searchResults.map((movie: Movie) => (
         <div
           key={movie.id}
@@ -34,7 +34,6 @@ export default function SearchPanel({ onClose, searchQuery }: DropdownPanelProps
             alt={movie.title || movie.name}
             className="w-full h-48 object-cover rounded"
           />
-          {/* Overlay title on hover */}
           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b">
             <p className="text-sm font-semibold truncate px-2">
               {movie.title || movie.name}

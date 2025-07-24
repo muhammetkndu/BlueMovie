@@ -8,15 +8,16 @@ export default function Home() {
 
   return (
     <>
-      <div className="relative w-full h-screen overflow-hidden">
+      <div className=" w-full overflow-hidden ">
         <Video />
       </div>
-
+      <br />
       <div>
         <MovieRow title="Öne Çıkanlar" films={movies} />
         <MovieRow title="Son Eklenenler" films={latesMovies} />
         <MovieRow title="En Çok Oy Alanlar" films={topRadetMovies} />
       </div>
+      
       <Footer />
     </>
   );

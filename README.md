@@ -1,69 +1,24 @@
-# React + TypeScript + Vite
+# 🎬 Movie Browser - Film & Dizi Keşif Uygulaması
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bu proje, React + TypeScript + Tailwind CSS kullanılarak geliştirilmiş modern bir film/dizi keşif uygulamasıdır. Kullanıcılar en yeni filmleri ve dizileri listeleyebilir, detay sayfalarına göz atabilir ve trailer (fragman) ön izlemesini izleyebilir.
 
-Currently, two official plugins are available:
+## 🚀 Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔎 **Film/Dizi Listesi:** API'den çekilen verilerle çeşitli kategori başlıkları altında kartlar.
+- 📱 **Responsive Tasarım:** Mobil, tablet ve masaüstü cihazlara uyumlu arayüz.
+- 🌙 **Dark / Light Mod:** Kullanıcı deneyimini artırmak için tema değişimi.
+- 🎞️ **Detay Sayfası:** Her filmin detayına özel sayfa ile bilgi sunumu.
+- 📦 **Component Bazlı Yapı:** Temiz, düzenli ve genişletilebilir React component yapısı.
+- 📂 **Context API Kullanımı:** Uygulama genelinde global state yönetimi.
 
-## Expanding the ESLint configuration
+## 🛠️ Kullanılan Teknolojiler
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- ⚛️ React
+- 🟦 TypeScript
+- 🌬️ Tailwind CSS
+- 📡 Axios
+- 🎬 Watchmode API (veya benzeri bir film/dizi API servisi)
+- 🎨 Responsive UI & Conditional Rendering
+- 📁 React Context API
+- 🔄 useEffect / useState gibi temel React Hook’ları
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```

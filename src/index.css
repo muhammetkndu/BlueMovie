@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-body{
+/* body{
     background-color: black;
-}
+} */
 
 /* global.css ya da component css */
 .no-scrollbar::-webkit-scrollbar {

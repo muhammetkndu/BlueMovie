@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useMovieContext } from "../context/movieContext";
 
 interface VideoDetailCardProps {

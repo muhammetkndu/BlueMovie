@@ -10,7 +10,7 @@ const VideoPlayer = () => {
 
     const {videoFile} = useMovieContext();
     const currentVideoData = videoData[videoFile || ""] || null
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
       const handlerResize = () => {

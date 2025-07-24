@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { Movie } from "../types/movie";
+import gotVideo from '../assets/videos.mp4'
 
 const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -34,7 +35,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [searchResults, setSearchResults] = useState<Movie[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [favorites, setFavorites] = useState<Movie[]>([]);
-  const [videoFile, setVideoFile] = useState("/videos/videos.mp4")
+  const [videoFile, setVideoFile] = useState(gotVideo);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
 

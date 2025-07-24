@@ -4,6 +4,8 @@ import { useMovieContext } from "../context/movieContext";
 import SearchPanel from "./searchPanel";
 import DropdownPanel from "./dropdownPanel";
 import Favorites from "../pages/favorites";
+import gotVideo from "../assets/videos.mp4";
+import breakingBadVideo from "../assets/videosBreakingBad.mp4";
 
 export default function Navbar() {
   const [activeDropDown, setActiveDropDown] = useState<"films" | "series" | null>(null);
@@ -66,10 +68,10 @@ export default function Navbar() {
 
           if (newSwapped) {
             document.documentElement.classList.add("dark");
-            setVideoFile("/videos/videosBreakingBad.mp4");
+            setVideoFile(gotVideo);
           } else {
             document.documentElement.classList.remove("dark");
-            setVideoFile("/videos/videos.mp4");
+            setVideoFile(breakingBadVideo);
           }
 
           return newSwapped;

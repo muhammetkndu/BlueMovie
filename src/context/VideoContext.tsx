@@ -1,6 +1,9 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
+import gotVideo from "../assets/videos.mp4";
+import breakingBadVideo from "../assets/videosBreakingBad.mp4";
+
 interface VideoContextType {
   video: string;
   toggleVideo: () => void;
@@ -9,14 +12,10 @@ interface VideoContextType {
 const VideoContext = createContext<VideoContextType | undefined>(undefined);
 
 export const VideoProvider = ({ children }: { children: ReactNode }) => {
-  const [video, setVideo] = useState("videos/videos.mp4"); // Game of Thrones
+  const [video, setVideo] = useState(gotVideo);
 
   const toggleVideo = () => {
-    setVideo((prev) =>
-      prev === "videos/videos.mp4"
-        ? "videos/videosBreakingbad.mp4"
-        : "videos/videos.mp4"
-    );
+    setVideo((prev) => (prev === gotVideo ? breakingBadVideo : gotVideo));
   };
 
   return (

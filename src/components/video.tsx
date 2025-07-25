@@ -10,17 +10,38 @@ const VideoPlayer = () => {
 
     const {videoFile} = useMovieContext();
     const currentVideoData = videoData[videoFile || ""] || null
-    const [isMobile, setIsMobile] = useState(true);
+    const [shouldShowText, setShouldShowText] = useState(true);
 
     useEffect(() => {
       const handlerResize = () => {
-        setIsMobile(window.innerWidth < 768); 
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        console.log("Genişlik:", width, "Yükseklik:", height); // DEBUG
+        
+        // PC'de her zaman göster (768px ve üzeri)
+        if (width >= 768) {
+          console.log("PC modunda - göster"); // DEBUG
+          setShouldShowText(true);
+        } 
+        // Mobilde sadece yatay modda göster (genişlik > yükseklik)
+        else {
+          const isLandscape = width > height;
+          console.log("Mobil mod - Yatay mı?", isLandscape); // DEBUG
+          setShouldShowText(isLandscape);
+        }
       }
+      
       handlerResize();
       window.addEventListener('resize', handlerResize);
 
       return () => window.removeEventListener('resize', handlerResize);
     },[]);
+
+    // DEBUG için
+    console.log("shouldShowText:", shouldShowText);
+    console.log("currentVideoData:", currentVideoData);
+    console.log("videoFile:", videoFile);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -43,7 +64,7 @@ const VideoPlayer = () => {
         className="w-full h-full  object-cover"
       ></video>
 
-      {currentVideoData && !isMobile && (
+      {currentVideoData && shouldShowText && (
         <div className="absolute top-[55%] md:top-1/3 left-4 sm:left-10 max-w-xs sm:max-w-xl space-y-4 sm:space-y-4 z-0 bg-gray-400/10 px-4 sm:px-2 py-10 sm:py-4 rounded-2xl sm:rounded-3xl">
         <h1 className="text-2xl sm:text-6xl font-bold">{currentVideoData.title}</h1>
         <p className="text-sm sm:text-2xl max-w-xs sm:max-w-md">{currentVideoData.description}</p>

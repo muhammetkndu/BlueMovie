@@ -5,7 +5,7 @@ export default function Footer() {
 
     {/* Logo ve Açıklama */}
     <div className="flex-1 mb-8 md:mb-0">
-      <h2 className="text-2xl font-bold">MamiHub</h2>
+      <h2 className="text-2xl font-bold">BlueMovie</h2>
       <p className="mt-2 text-sm max-w-sm">
         En iyi filmleri ve dizileri keşfet. Kullanıcı dostu arayüz ve güçlü filtreleme özellikleri ile keyifli vakit geçir.
       </p>
